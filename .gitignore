@@ -1,0 +1,14 @@
+Resources
+cache.db
+cache.db-journal
+data
+*.vcxproj
+*.filters
+*.user
+.qmake.stash
+*.sln
+*.vs
+*.qmlc
+.vs
+dist
+*exe
