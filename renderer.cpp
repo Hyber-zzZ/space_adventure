@@ -9,12 +9,13 @@ const int cubeCount = 500;
 
 Renderer::Renderer(){
     initializeOpenGLFunctions();
-	spacecraft = new Spacecraft({ 0,0,-1000 });
+    spacecraft = new Spacecraft({ 0,0,-50 });
 	connect(spacecraft, &Spacecraft::outputShipSpeed, this, &Renderer::outputShipSpeed, Qt::DirectConnection);
 	laserMgr = new LaserManager();
 	laserMgr->getSpacecraftInstance(spacecraft);
 	cubeMgr = new CubeManager();
-	cubeMgr->getSpacecraftInstance(spacecraft);
+    cubeMgr->getSpacecraft(spacecraft);
+    cubeMgr->getLaserMgr(laserMgr);
 	connect(cubeMgr, &CubeManager::crashed, this, &Renderer::crashed, Qt::DirectConnection);
 }
 Renderer::~Renderer(){

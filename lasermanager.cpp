@@ -44,13 +44,13 @@ void LaserManager::updateState()
 	if (shooting) {
 		freqCount++;
 		if (freqCount == 5) {
-			emitLaser(m_spacecraft->getPos()- 2*m_spacecraft->getUp(), m_spacecraft->getFront());
+			emitLaser(m_spacecraft->getPos()+ m_spacecraft->getFront()*2, m_spacecraft->getFront());
 			freqCount = 0;
 		}
 	}
 	for (int i = 0; i < lasers.length(); i++) {
 		lasers[i].health--;
-		if (!lasers[i].health) {
+        if (lasers[i].health<=0) {
 			lasers.remove(i);
 			laserModels.remove(i);
 			i--;

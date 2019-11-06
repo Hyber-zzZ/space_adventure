@@ -5,10 +5,11 @@
 #include<QtGui>
 #include<QTimer>
 #include"spacecraft.h"
+#include"lasermanager.h"
 struct Cube {
 	QVector3D pos;
-	QVector4D initAng;//初始角度
-	QVector4D rotateAng_spd;//自转角度和速度
+	QVector4D initAng;//鍒濆瑙掑害
+	QVector4D rotateAng_spd;//鑷浆瑙掑害鍜岄�熷害
 	QMatrix4x4 relativePos;
 	float size;
 	int health=100;
@@ -24,12 +25,13 @@ public:
 	~CubeManager();
 	QVector<QMatrix4x4> getCubeModels() { return finalModels; }
 	int getCubeCount() { return cubeCount; }
-	void getSpacecraftInstance(Spacecraft* s) { m_spacecraft = s; }
+    void getSpacecraft(Spacecraft* spacecraft) { m_spacecraft = spacecraft; }
+    void getLaserMgr(LaserManager* laserMgr){m_laserMgr=laserMgr;}
 private:
 	int cubeCount = 600;
 	int MaxRadius =400;
 	int MinRadius = 250;
-	QVector3D centerPos = {0,0,1000};
+	QVector3D centerPos = {0,0,500};
 	QVector3D axis = { 0.2,1,-0.2 };
 	QTimer* timer;
 	QVector<Cube>_cubes;
@@ -39,6 +41,7 @@ private:
 	void createCube(int cubeCount);
 	QVector3D getVerticalV(QVector3D v);
 	Spacecraft* m_spacecraft;
+	LaserManager* m_laserMgr;
 private slots:
 	void updateState();
 };

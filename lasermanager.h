@@ -4,7 +4,7 @@
 struct Laser {
 	QVector3D pos;
 	QVector3D front;
-	float speed = 10;
+	float speed = 2;
 	int health = 100;
 	int damage = 5;
 };
@@ -18,6 +18,8 @@ public:
 	void keyPressEvent(QKeyEvent *event);
 	void keyReleaseEvent(QKeyEvent *event);
 	void getSpacecraftInstance(Spacecraft* s) { m_spacecraft = s; }
+    void laserHit(int index){lasers[index].health=0;}
+    QVector<Laser> getLasers(){return lasers;}
 private slots:
 	void emitLaser(QVector3D _pos, QVector3D _front);
 	void updateState();

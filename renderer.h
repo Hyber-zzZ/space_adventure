@@ -27,7 +27,6 @@ class Renderer : public QObject, protected QOpenGLFunctions_4_5_Core
 Q_OBJECT
 signals:
     void outputShipSpeed(float speed,float shipx, float shipy, float shipz);
-	void emitLaser(QVector3D _pos, QVector3D _front);
 	void crashed();
 public:
     Renderer();
@@ -59,10 +58,8 @@ private:
 
     QOpenGLTexture *texture1;
     QOpenGLTexture *texture2;
-    QVector<float>scale;
     QVector<QVector3D>pos;
     QVector<QVector4D>rotateAng_Spd;
-    QVector<QMatrix4x4>models;
 
 
 	QVector3D camPos;
