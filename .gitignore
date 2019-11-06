@@ -1,7 +1,8 @@
-Resources
-cache.db
-cache.db-journal
-data
+x64/
+debug/
+release/
+
+
 *.vcxproj
 *.filters
 *.user
@@ -10,5 +11,4 @@ data
 *.vs
 *.qmlc
 .vs
-dist
 *exe
