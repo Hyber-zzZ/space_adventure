@@ -74,7 +74,7 @@ void Renderer::paint()
     view.lookAt(camPos, camPos + camFront, camUp);
     //view.translate(0.0f,0.0f,-50.0f);  
     QMatrix4x4 projection;
-    projection.perspective(30, 1.8, 1.0f, 5000.0f);
+   projection.perspective(45, 1.8, 2.0f, 5000.0f);
     
     QVector3D lightPos = { 0.0f,300000.0f,0.0f }; 
     QVector3D lightClr = { 0.8f,0.8f,0.8f };
@@ -97,6 +97,8 @@ void Renderer::paint()
 	_buffers["cubeInstanced"]->bind();
 	_renderObjs["cubes"]->setInstancedCount(cubeMgr->getCubeCount());
 	_buffers["cubeInstanced"]->allocate(cubeMgr->getCubeModels().constData(), cubeMgr->getCubeCount() * sizeof(QMatrix4x4));
+	_buffers["cubeHit"]->bind();
+	_buffers["cubeHit"]->allocate(cubeMgr->getCubeHit().constData(), cubeMgr->getCubeCount() * sizeof(float));
 	_renderObjs["cubes"]->draw();
 
 
@@ -282,6 +284,14 @@ void Renderer:: makeCube()
 	}
 	tempObj->setInstancedCount(cubeCount);
 	_buffers["cubeInstanced"] = instancedBuffer;
+	instancedBuffer= new QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
+	instancedBuffer->create();
+	instancedBuffer->setUsagePattern(QOpenGLBuffer::DynamicDraw);
+	instancedBuffer->bind();
+	glVertexAttribPointer(7, 1, GL_FLOAT, GL_FALSE, 0, 0);
+	glEnableVertexAttribArray(7);
+	glVertexAttribDivisor(7,1);
+	_buffers["cubeHit"] = instancedBuffer;
 	instancedBuffer->release();
 	tempObj->unbindVAO();
 	_renderObjs["cubes"] = tempObj;

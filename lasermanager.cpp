@@ -43,8 +43,10 @@ void LaserManager::updateState()
 {
 	if (shooting) {
 		freqCount++;
-		if (freqCount == 5) {
-            emitLaser(m_spacecraft->getPos()+ m_spacecraft->getFront()*3, m_spacecraft->getFront());
+		if (freqCount == 6) {
+            emitLaser(m_spacecraft->getPos() -m_spacecraft->getFront()*4+ m_spacecraft->getRight()*2-m_spacecraft->getUp(), m_spacecraft->getFront());
+			emitLaser(m_spacecraft->getPos() - m_spacecraft->getFront()*4 + m_spacecraft->getRight()*-2-m_spacecraft->getUp(), m_spacecraft->getFront());
+			//emitLaser(m_spacecraft->getPos() + m_spacecraft->getFront() * 1 , m_spacecraft->getFront());
 			freqCount = 0;
 		}
 	}

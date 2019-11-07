@@ -2,7 +2,7 @@
 #include<QtGui>
 #include<QObject>
 #include<QTimer>
-const float MaxSpeed = 1.5;
+const float MaxSpeed = 5;
 class Spacecraft :public QObject
 {
 	Q_OBJECT

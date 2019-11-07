@@ -4,8 +4,8 @@
 struct Laser {
 	QVector3D pos;
 	QVector3D front;
-    float speed = 8;
-	int health = 100;
+    float speed = 40;
+	int health = 50;
 	int damage = 5;
 };
 class LaserManager:public QObject
