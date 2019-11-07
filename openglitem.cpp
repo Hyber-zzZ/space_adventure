@@ -4,9 +4,11 @@ OpenGLItem::OpenGLItem(): m_renderer(nullptr)
 {
     setAcceptHoverEvents(true);
     setAcceptedMouseButtons(Qt::AllButtons);
+
     //setAcceptTouchEvents();
     setFocus(true);
     setFlag(ItemAcceptsInputMethod);
+    keepMouseGrab();
     connect(this, &QQuickItem::windowChanged, this, &OpenGLItem::handleWindowChanged);
 }
 OpenGLItem::~OpenGLItem(){
@@ -20,14 +22,14 @@ void OpenGLItem::mousePressEvent(QMouseEvent *event)
         m_renderer->mousePressEvent(event);
     }
 }
-
+/*
 void OpenGLItem::mouseMoveEvent(QMouseEvent *event)
 {
     if (m_renderer)
     {
         m_renderer->mouseMoveEvent(event);
     }
-}
+}*/
 
 void OpenGLItem::wheelEvent(QWheelEvent *event)
 {
@@ -61,10 +63,13 @@ void OpenGLItem::keyReleaseEvent(QKeyEvent * event)
     }
 }
 
-//void OpenGLItem::hoverMoveEvent(QHoverEvent *event)
-//{
-//	QQuickItem::hoverMoveEvent(event);
-//}
+void OpenGLItem::hoverMoveEvent(QHoverEvent *event)
+{
+    if (m_renderer)
+    {
+        m_renderer->hoverMoveEvent(event);
+    }
+}
 
 void OpenGLItem::handleWindowChanged(QQuickWindow *win){
     if (win) {

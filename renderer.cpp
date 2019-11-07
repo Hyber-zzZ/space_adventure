@@ -3,7 +3,7 @@
 #include <QOpenGLFramebufferObject>
 #include <QOpenGLShaderProgram>
 #include <QOpenGLTexture>
-
+#include<QCursor>
 const float Pi = 3.14159265359;
 const int cubeCount = 500;
 
@@ -120,6 +120,16 @@ void Renderer::mousePressEvent(QMouseEvent *event)
 
 void Renderer::mouseMoveEvent(QMouseEvent *event)
 {
+    if (spacecraft)
+    {
+        spacecraft->mouseMoveEvent(event);
+    }
+}
+void Renderer::hoverMoveEvent(QHoverEvent *event){
+    if (spacecraft)
+    {
+        spacecraft->hoverMoveEvent(event);
+    }
 }
 void Renderer::keyPressEvent(QKeyEvent * event)
 {

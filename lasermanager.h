@@ -4,7 +4,7 @@
 struct Laser {
 	QVector3D pos;
 	QVector3D front;
-	float speed = 2;
+    float speed = 8;
 	int health = 100;
 	int damage = 5;
 };

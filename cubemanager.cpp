@@ -68,7 +68,7 @@ void CubeManager::updateState() {
             _cubes.remove(i);
             finalModels.remove(i);
             _cubeIsHit.remove(i);
-           // i--;
+            i--;
             continue;
         }
         QVector<Laser> lasers=m_laserMgr->getLasers();
@@ -78,16 +78,16 @@ void CubeManager::updateState() {
             float laser_cube_dis=cubePos.distanceToPoint(laserFrontPos);
             if(laser_cube_dis<_cubes[i].size/2){
                 m_laserMgr->laserHit(j); 
-				//_cubes[i].health -= 10;
+                _cubes[i].health -= 10;
 				qDebug() << "hit  " << i<<"   "<<rand();
             }
 
         }
 		QMatrix4x4 tempMat1;
-		//tempMat1.rotate(0.05, axis);
+        tempMat1.rotate(0.05, axis);
 		_cubes[i].relativePos = tempMat1 * _cubes[i].relativePos;
 		QVector4D rotateAng_spd = _cubes[i].rotateAng_spd;
-		//if (i)_cubes[i].relativePos.rotate(rotateAng_spd.w(), { rotateAng_spd.x(),rotateAng_spd.y(),rotateAng_spd.z() });
+        if (i)_cubes[i].relativePos.rotate(rotateAng_spd.w(), { rotateAng_spd.x(),rotateAng_spd.y(),rotateAng_spd.z() });
 		QMatrix4x4 tempMat2;
 		tempMat2.translate(centerPos);
 		finalModels[i] = tempMat2* _cubes[i].relativePos;

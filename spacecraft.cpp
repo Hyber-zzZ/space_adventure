@@ -49,8 +49,18 @@ void Spacecraft::mousePressEvent(QMouseEvent * event)
 
 void Spacecraft::mouseMoveEvent(QMouseEvent * event)
 {
-}
 
+}
+void Spacecraft::hoverMoveEvent(QHoverEvent *event){
+    QPointF p=event->pos()-event->oldPos();
+    if(event->oldPos().x()<500||event->oldPos().x()>1420||event->oldPos().y()<100||event->oldPos().y()>980){
+        QCursor::setPos(960,540);
+        return;
+    }
+    yaw(p.x()*(0.0006));
+    pitch(p.y()*-0.0006);
+
+}
 void Spacecraft::wheelEvent(QWheelEvent * event)
 {
 }

@@ -5,8 +5,11 @@ import OpenGLItem 1.0
 Window {
     id:mainWindow
     visible: true
-    width:400*1.8
-    height:400
+
+
+    width: Screen.width
+    height: Screen.height
+    flags: Qt.Window|Qt.FramelessWindowHint
     OpenGLItem
        {
            id: openGLItem
@@ -40,6 +43,11 @@ Window {
         x:40
         y:120
         z:2
+    }
+    FrontSight{
+        anchors.centerIn: parent
+        _color:"white"
+        z:3
     }
 
 
