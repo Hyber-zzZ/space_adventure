@@ -10,6 +10,8 @@ Window {
     width: Screen.width
     height: Screen.height
     flags: Qt.Window|Qt.FramelessWindowHint
+    //width: 360*3
+    //height: 200*3
     OpenGLItem
        {
            id: openGLItem

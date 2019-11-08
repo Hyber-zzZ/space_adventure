@@ -14,8 +14,14 @@ Renderer::Renderer(){
 	laserMgr = new LaserManager();
 	laserMgr->getSpacecraftInstance(spacecraft);
 	cubeMgr = new CubeManager();
+	cubeMgr->setCenterPos({ 0,0,10000 });
     cubeMgr->getSpacecraft(spacecraft);
     cubeMgr->getLaserMgr(laserMgr);
+	cubeMgr->useMMTimmer();
+	tempmgr = new CubeManager();
+	tempmgr->setCenterPos({ 0,0,10000 });
+	tempmgr->getSpacecraft(spacecraft);
+	tempmgr->getLaserMgr(laserMgr);
 	connect(cubeMgr, &CubeManager::crashed, this, &Renderer::crashed, Qt::DirectConnection);
 }
 Renderer::~Renderer(){
@@ -74,7 +80,7 @@ void Renderer::paint()
     view.lookAt(camPos, camPos + camFront, camUp);
     //view.translate(0.0f,0.0f,-50.0f);  
     QMatrix4x4 projection;
-   projection.perspective(45, 1.8, 2.0f, 5000.0f);
+   projection.perspective(45, 1.8, 2.0f, 50000.0f);
     
     QVector3D lightPos = { 0.0f,300000.0f,0.0f }; 
     QVector3D lightClr = { 0.8f,0.8f,0.8f };
@@ -95,10 +101,12 @@ void Renderer::paint()
 	_renderObjs["cubes"]->setUniform("lightClr", lightClr);
 
 	_buffers["cubeInstanced"]->bind();
-	_renderObjs["cubes"]->setInstancedCount(cubeMgr->getCubeCount());
-	_buffers["cubeInstanced"]->allocate(cubeMgr->getCubeModels().constData(), cubeMgr->getCubeCount() * sizeof(QMatrix4x4));
+	_renderObjs["cubes"]->setInstancedCount(cubeMgr->getCubeCount()*2);
+	_buffers["cubeInstanced"]->allocate(cubeMgr->getCubeModels().constData(), cubeMgr->getCubeCount() * 2*sizeof(QMatrix4x4));
+	_buffers["cubeInstanced"]->write(tempmgr->getCubeCount() * sizeof(QMatrix4x4), tempmgr->getCubeModels().constData(), tempmgr->getCubeCount() * sizeof(QMatrix4x4));
 	_buffers["cubeHit"]->bind();
-	_buffers["cubeHit"]->allocate(cubeMgr->getCubeHit().constData(), cubeMgr->getCubeCount() * sizeof(float));
+	_buffers["cubeHit"]->allocate(cubeMgr->getCubeHit().constData(), cubeMgr->getCubeCount() *2* sizeof(float));
+	_buffers["cubeInstanced"]->write(tempmgr->getCubeCount()  * sizeof(float), tempmgr->getCubeHit().constData(), tempmgr->getCubeCount() * sizeof(float));
 	_renderObjs["cubes"]->draw();
 
 

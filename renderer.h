@@ -72,6 +72,7 @@ private:
 	Spacecraft *spacecraft;
 	LaserManager *laserMgr;
 	CubeManager *cubeMgr;
+	CubeManager *tempmgr;
 
 	QMap<QString,RenderObj*>_renderObjs;
 	QMap<QString, QOpenGLBuffer*>_buffers;

@@ -6,6 +6,7 @@
 #include<QTimer>
 #include"spacecraft.h"
 #include"lasermanager.h"
+#include"mmtimer.h"
 struct Cube {
 	QVector3D pos;
 	QVector4D initAng;//初始角度
@@ -28,13 +29,21 @@ public:
 	int getCubeCount() { return cubeCount; }
     void getSpacecraft(Spacecraft* spacecraft) { m_spacecraft = spacecraft; }
     void getLaserMgr(LaserManager* laserMgr){m_laserMgr=laserMgr;}
+	void setCenterPos(QVector3D pos) { centerPos = pos; }
+	void setSize(int minR, int maxR) { MinRadius = minR; MaxRadius = maxR; }
+	void useMMTimmer() {
+		timer->stop();
+		mtimer->start();
+	}
 private:
 	int cubeCount = 600;
 	int MaxRadius =2500;
 	int MinRadius = 1000;
 	QVector3D centerPos = {0,0,2000};
-	QVector3D axis = { 0.2,1,-0.2 };
+	//QVector3D axis = { 0.2,1,-0.2 };
+	QVector3D axis = { 0,0,-0.2 };
     QTimer* timer;
+	MMTimer *mtimer;
 	QVector<Cube>_cubes;
 	QVector<QMatrix4x4> finalModels;
 	
