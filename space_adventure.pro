@@ -31,7 +31,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 HEADERS += \
         openglitem.h\
-        performanceTimer.h\
+        mmtimer.h\
         renderer.h\
         renderobj.h\
         spacecraft.h\
@@ -41,7 +41,7 @@ HEADERS += \
 SOURCES += \
         main.cpp\
         openglitem.cpp\
-        performanceTimer.cpp\
+        mmtimer.cpp\
         renderer.cpp\
         renderobj.cpp\
         spacecraft.cpp\
