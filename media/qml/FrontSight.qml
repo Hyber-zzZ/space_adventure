@@ -4,10 +4,12 @@ Item {
     property color _color
     Rectangle{
         anchors.centerIn: parent
-        width: 2
-        height: 2
-        radius: 1
-        color: _color
+        width: 25
+        height: 25
+        radius: 12.5
+        border.width: 2
+        border.color: _color
+        color: "#00000000"
     }
     Rectangle{
         width: 2

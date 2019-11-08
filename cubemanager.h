@@ -6,7 +6,6 @@
 #include<QTimer>
 #include"spacecraft.h"
 #include"lasermanager.h"
-#include"performanceTimer.h"
 struct Cube {
 	QVector3D pos;
 	QVector4D initAng;//初始角度
@@ -35,7 +34,7 @@ private:
 	int MinRadius = 1000;
 	QVector3D centerPos = {0,0,2000};
 	QVector3D axis = { 0.2,1,-0.2 };
-    PerformanceTimer* timer;
+    QTimer* timer;
 	QVector<Cube>_cubes;
 	QVector<QMatrix4x4> finalModels;
 	

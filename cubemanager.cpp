@@ -5,8 +5,9 @@
 CubeManager::CubeManager()
 {
 	createCube(cubeCount);
-    timer = new PerformanceTimer();
-    connect(timer, &PerformanceTimer::timeout, this, &CubeManager::updateState, Qt::DirectConnection);
+    timer = new QTimer();
+	timer->setInterval(10);
+    connect(timer, &QTimer::timeout, this, &CubeManager::updateState, Qt::DirectConnection);
     timer->start(10);
 }
 
