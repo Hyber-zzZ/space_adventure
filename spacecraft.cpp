@@ -9,7 +9,7 @@ Spacecraft::Spacecraft()
 	front = { 0,0,1 };
 	pos = { 0,0,0 };
 	timer = new QTimer();
-	timer->setInterval(10);
+	timer->setInterval(20);
 	connect(timer, &QTimer::timeout, this, &Spacecraft::updateState);
 	timer->start();
 }
@@ -135,14 +135,23 @@ void Spacecraft::keyReleaseEvent(QKeyEvent * event)
 	event->accept();
 }
 
+void Spacecraft::changeDirection(QPointF p)
+{
+	yaw(p.x()*(0.0004));
+	pitch(p.y()*-0.0004);
+}
+
+
+
+
 void Spacecraft::updateState()
 {
 	if (turningLeft) yaw(-0.005);
 	if (turningRight) yaw(0.005);
 	if (turningUp) pitch(0.005);
 	if (turningDown) pitch(-0.005);
-	if (rollingLeft) roll(0.005);
-	if (rollingRight) roll(-0.005);
+    if (rollingLeft) roll(0.008);
+    if (rollingRight) roll(-0.008);
 	pos = pos + front * speed;
 	if (speedUp&&speed<=MaxSpeed)speed +=  0.004;
  	if (slowDown&&speed>=0)speed -=  0.004;

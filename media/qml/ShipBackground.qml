@@ -15,7 +15,7 @@ Item {
         target: img
         from: parent.width*(-0.06)
         to:parent.width*(-0.04)
-        duration: 10
+        duration: 20
         onStopped: {
             shakeAnim2.start();
         }
@@ -25,7 +25,7 @@ Item {
         target: img
         to: parent.width*(-0.06)
         from:parent.width*(-0.04)
-        duration: 10
+        duration: 20
         onStopped: {
             console.log(shakeCount);
             shakeCount++;

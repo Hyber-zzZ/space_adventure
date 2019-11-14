@@ -34,6 +34,7 @@ public:
     void setViewportSize(const QSize &size);
     void setWindow(QQuickWindow *window);
     void mousePressEvent(QMouseEvent *event);
+	void mouseReleaseEvent(QMouseEvent *event);
     void mouseMoveEvent(QMouseEvent *event);
     void hoverMoveEvent(QHoverEvent *event);
     void wheelEvent(QWheelEvent *event);
@@ -67,7 +68,7 @@ private:
 	QVector3D camUp;
 	QVector3D camRight;
 	QVector3D camFront;
-    QPointF m_lastPos;
+    QPointF m_lastPos= QPointF(-1,-1);
 
 	Spacecraft *spacecraft;
 	LaserManager *laserMgr;

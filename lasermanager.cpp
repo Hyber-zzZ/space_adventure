@@ -14,18 +14,7 @@ LaserManager::LaserManager()
 LaserManager::~LaserManager()
 {
 }
-void LaserManager::keyPressEvent(QKeyEvent * event)
-{
-	if (event->key() == Qt::Key_Space) {
-		shooting = true;
-	}
-}
-void LaserManager::keyReleaseEvent(QKeyEvent * event)
-{
-	if (event->key() == Qt::Key_Space) {
-		shooting = false;
-	}
-}
+
 void LaserManager::emitLaser(QVector3D _pos, QVector3D _front){
 	Laser tempLaser;
 	tempLaser.front = _front;
@@ -44,8 +33,8 @@ void LaserManager::updateState()
 	if (shooting) {
 		freqCount++;
 		if (freqCount == 6) {
-            emitLaser(m_spacecraft->getPos() -m_spacecraft->getFront()*4+ m_spacecraft->getRight()*2-m_spacecraft->getUp(), m_spacecraft->getFront());
-			emitLaser(m_spacecraft->getPos() - m_spacecraft->getFront()*4 + m_spacecraft->getRight()*-2-m_spacecraft->getUp(), m_spacecraft->getFront());
+            emitLaser(m_spacecraft->getPos() -m_spacecraft->getFront()*1+ m_spacecraft->getRight()*1-m_spacecraft->getUp()*1, m_spacecraft->getFront());
+			emitLaser(m_spacecraft->getPos() - m_spacecraft->getFront()*1 + m_spacecraft->getRight()*-1-m_spacecraft->getUp()*1, m_spacecraft->getFront());
 			//emitLaser(m_spacecraft->getPos() + m_spacecraft->getFront() * 1 , m_spacecraft->getFront());
 			freqCount = 0;
 		}

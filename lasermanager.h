@@ -4,8 +4,8 @@
 struct Laser {
 	QVector3D pos;
 	QVector3D front;
-    float speed = 40;
-	int health = 50;
+    float speed = 100;
+    int health = 50;
 	int damage = 5;
 };
 class LaserManager:public QObject
@@ -15,8 +15,7 @@ public:
 	LaserManager();
 	~LaserManager();
 	QVector<QMatrix4x4> getModels() { return laserModels; }
-	void keyPressEvent(QKeyEvent *event);
-	void keyReleaseEvent(QKeyEvent *event);
+	void setShoot(bool _isShooting) { shooting = _isShooting; }
 	void getSpacecraftInstance(Spacecraft* s) { m_spacecraft = s; }
     void laserHit(int index){lasers[index].health=0;}
     QVector<Laser> getLasers(){return lasers;}

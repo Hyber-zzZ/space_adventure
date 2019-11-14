@@ -14,14 +14,9 @@ Renderer::Renderer(){
 	laserMgr = new LaserManager();
 	laserMgr->getSpacecraftInstance(spacecraft);
 	cubeMgr = new CubeManager();
-	cubeMgr->setCenterPos({ 0,0,10000 });
     cubeMgr->getSpacecraft(spacecraft);
     cubeMgr->getLaserMgr(laserMgr);
 	cubeMgr->useMMTimmer();
-	tempmgr = new CubeManager();
-	tempmgr->setCenterPos({ 0,0,10000 });
-	tempmgr->getSpacecraft(spacecraft);
-	tempmgr->getLaserMgr(laserMgr);
 	connect(cubeMgr, &CubeManager::crashed, this, &Renderer::crashed, Qt::DirectConnection);
 }
 Renderer::~Renderer(){
@@ -80,7 +75,7 @@ void Renderer::paint()
     view.lookAt(camPos, camPos + camFront, camUp);
     //view.translate(0.0f,0.0f,-50.0f);  
     QMatrix4x4 projection;
-   projection.perspective(45, 1.8, 2.0f, 50000.0f);
+   projection.perspective(45, (float)1920/1080, 2.0f, 50000.0f);
     
     QVector3D lightPos = { 0.0f,300000.0f,0.0f }; 
     QVector3D lightClr = { 0.8f,0.8f,0.8f };
@@ -101,12 +96,10 @@ void Renderer::paint()
 	_renderObjs["cubes"]->setUniform("lightClr", lightClr);
 
 	_buffers["cubeInstanced"]->bind();
-	_renderObjs["cubes"]->setInstancedCount(cubeMgr->getCubeCount()*2);
-	_buffers["cubeInstanced"]->allocate(cubeMgr->getCubeModels().constData(), cubeMgr->getCubeCount() * 2*sizeof(QMatrix4x4));
-	_buffers["cubeInstanced"]->write(tempmgr->getCubeCount() * sizeof(QMatrix4x4), tempmgr->getCubeModels().constData(), tempmgr->getCubeCount() * sizeof(QMatrix4x4));
+	_renderObjs["cubes"]->setInstancedCount(cubeMgr->getCubeCount());
+	_buffers["cubeInstanced"]->allocate(cubeMgr->getCubeModels().constData(), cubeMgr->getCubeCount() *sizeof(QMatrix4x4));
 	_buffers["cubeHit"]->bind();
-	_buffers["cubeHit"]->allocate(cubeMgr->getCubeHit().constData(), cubeMgr->getCubeCount() *2* sizeof(float));
-	_buffers["cubeInstanced"]->write(tempmgr->getCubeCount()  * sizeof(float), tempmgr->getCubeHit().constData(), tempmgr->getCubeCount() * sizeof(float));
+	_buffers["cubeHit"]->allocate(cubeMgr->getCubeHit().constData(), cubeMgr->getCubeCount() * sizeof(float));
 	_renderObjs["cubes"]->draw();
 
 
@@ -122,30 +115,45 @@ void Renderer::paint()
 
 }
 
-
-void Renderer::mousePressEvent(QMouseEvent *event)
+void Renderer::mousePressEvent(QMouseEvent * event)
 {
-    m_lastPos = event->localPos();
+	if (event->button() == Qt::LeftButton) {
+		laserMgr->setShoot(true);
+	}
+}
+
+void Renderer::mouseReleaseEvent(QMouseEvent * event)
+{
+	if (event->button() == Qt::LeftButton) {
+		laserMgr->setShoot(false);
+	}
 }
 
 void Renderer::mouseMoveEvent(QMouseEvent *event)
 {
-    if (spacecraft)
-    {
-        spacecraft->mouseMoveEvent(event);
-    }
+	if (m_lastPos == QPointF(-1, -1)) m_lastPos = event->pos();
+	if (m_lastPos.x() < 500 || m_lastPos.x() > 1420 || m_lastPos.y() < 100 || m_lastPos.y() > 980) {
+		QCursor::setPos(960, 540);
+		m_lastPos = QPointF(960, 540);
+		return;
+	}
+	QPointF p = event->pos() - m_lastPos;
+	spacecraft->changeDirection(p);
+	m_lastPos = event->pos();
 }
 void Renderer::hoverMoveEvent(QHoverEvent *event){
-    if (spacecraft)
-    {
-        spacecraft->hoverMoveEvent(event);
-    }
+	if (m_lastPos == QPointF(-1,-1)) m_lastPos = event->pos();
+	if (event->pos().x() < 500 || event->pos().x() > 1420 || event->pos().y() < 100 || event->pos().y() > 980) {
+		QCursor::setPos(960, 540);
+		m_lastPos = QPointF(960, 540);
+		return;
+	}
+	QPointF p = event->pos() - m_lastPos;
+	spacecraft->changeDirection(p);
+	m_lastPos = event->pos();
 }
 void Renderer::keyPressEvent(QKeyEvent * event)
 {
-	if (laserMgr) {
-		laserMgr->keyPressEvent(event);
-	}
 	if (spacecraft) 
 	{
 		spacecraft->keyPressEvent(event);
@@ -154,10 +162,6 @@ void Renderer::keyPressEvent(QKeyEvent * event)
 
 void Renderer::keyReleaseEvent(QKeyEvent * event)
 {
-	if (laserMgr)
-	{
-		laserMgr->keyReleaseEvent(event);
-	}
 	if (spacecraft) 
 	{
 		spacecraft->keyReleaseEvent(event);
@@ -355,6 +359,12 @@ void Renderer::makeLaser()
 		laserVertex.push_back(QVector4D(sin(i*Pi / 5.0)*0.06, cos(i*Pi / 5.0)*0.06, -3.8, 0.1));
 		laserVertex.push_back(QVector4D(sin(k*Pi / 5.0)*0.06, cos(k*Pi / 5.0)*0.06, -3.8, 0.1));
 	}
+	for (int i = 0; i < laserVertex.length(); i++) {
+		laserVertex[i].setX(laserVertex[i].x() *1);
+		laserVertex[i].setY(laserVertex[i].y() * 1);
+		laserVertex[i].setZ(laserVertex[i].z() * 10);
+	}
+		
 	tempObj->bindVAO();
 	QOpenGLBuffer* vertexBuffer = new QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
 	vertexBuffer->create();

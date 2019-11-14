@@ -36,12 +36,12 @@ public:
 		mtimer->start();
 	}
 private:
-	int cubeCount = 600;
-	int MaxRadius =2500;
-	int MinRadius = 1000;
-	QVector3D centerPos = {0,0,2000};
-	//QVector3D axis = { 0.2,1,-0.2 };
-	QVector3D axis = { 0,0,-0.2 };
+	int cubeCount = 500;
+	int MaxRadius =1000;
+	int MinRadius = 500;
+	QVector3D centerPos = {0,0,1000};
+	QVector3D axis = { 0.2,1,-0.2 };
+	//QVector3D axis = { 0,0,-0.2 };
     QTimer* timer;
 	MMTimer *mtimer;
 	QVector<Cube>_cubes;

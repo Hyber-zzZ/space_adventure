@@ -25,6 +25,8 @@ public:
 	void mouseDoubleClickEvent(QMouseEvent *event);
 	void keyPressEvent(QKeyEvent *event);
 	void keyReleaseEvent(QKeyEvent *event);
+	void changeDirection(QPointF p);
+
 private:
 	QVector3D up, right, front,pos;
 	float speed=0;
@@ -34,8 +36,9 @@ private:
 	void pitch(float ratio);
 	void yaw(float ratio);
 	void rotate(QVector3D &a, QVector3D &b, float ratio);
-	
+
 private slots:
 	void updateState();
+
 };
 
